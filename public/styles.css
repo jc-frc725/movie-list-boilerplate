@@ -2,3 +2,7 @@ body {
   font-family: "Georgia", Times, sans-serif;;
   background-color: rgb(221, 169, 169);
 }
+
+ul {
+  list-style-type: none
+}

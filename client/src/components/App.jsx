@@ -24,7 +24,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Hello World!</h1>
-        <MovieList />
+        <MovieList movies={this.state.movies}/>
       </div>
     );
   }

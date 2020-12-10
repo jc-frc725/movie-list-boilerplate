@@ -7,7 +7,7 @@ class MovieListEntry extends React.Component {
 
   render() {
     return (
-      <div id="movie-list-entry">this is a movie</div>
+      <li id="movie-list-entry">{this.props.title}</li>
     );
   }
 }
