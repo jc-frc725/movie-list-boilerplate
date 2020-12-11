@@ -1,5 +1,6 @@
 import React from 'react';
 import MovieList from './MovieList.jsx';
+import SearchBar from './SearchBar.jsx';
 
 // const App = (props) => (
 //   <div>Hello World!</div>
@@ -24,6 +25,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Hello World!</h1>
+        <SearchBar />
         <MovieList movies={this.state.movies}/>
       </div>
     );
