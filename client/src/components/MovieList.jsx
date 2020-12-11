@@ -1,7 +1,7 @@
 import React from 'react';
 import MovieListEntry from './MovieListEntry';
 
-var MovieList = ({movies}) => (
+const MovieList = ({movies}) => (
   <ul className="movie-list">
     {movies.map((movie, idx) => 
       <MovieListEntry
