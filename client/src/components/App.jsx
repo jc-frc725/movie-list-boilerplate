@@ -17,14 +17,25 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      movies: movies,
-      search: ''
+      movies: [],
+      searchQuery: ''
     }
     this.searchMovie = this.searchMovie.bind(this);
   }
 
+  componentDidMount() {
+    setTimeout(() => this.setState({movies}), 1000);
+  }
+
   searchMovie(query) {
-    console.log(query);
+    //console.log(query);
+    const searchedMovies = [];
+    movies.forEach(movie => {
+      if (movie.title.indexOf(query) !== -1) {
+        searchedMovies.push(movie);
+      }
+    });
+    this.setState({movies: searchedMovies});
   }
 
   render() {
