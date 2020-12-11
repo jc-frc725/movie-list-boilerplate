@@ -22,8 +22,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       movies: [],
-      searchedMovies: []
-      //search: ''
+      searchedMovies: [],
+      //noMovies: function() {console.log("no movie by that name found")}
     }
     this.searchMovie = this.searchMovie.bind(this);
   }
@@ -47,6 +47,10 @@ class App extends React.Component {
     });
     // update state
     this.setState({searchedMovies});
+    
+    if (this.state.searchedMovies.length === 0) {
+      console.log("no movie by that name found");
+    }
   }
 
   render() {
