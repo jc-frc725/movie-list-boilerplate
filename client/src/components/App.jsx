@@ -11,6 +11,10 @@ const movies = [
   {title: 'The Grey'},
   {title: 'Sunshine'},
   {title: 'Ex Machina'},
+  {title: 'WarGames'},
+  {title: 'Avengers Endgame'},
+  {title: '007'},
+  {title: 'Kiss of the Dragon'}
 ];
 
 class App extends React.Component {
@@ -30,8 +34,6 @@ class App extends React.Component {
   }
 
   searchMovie(query) {
-    console.log(query);
-    //this.setState({search: query})
     // filter this.movies based on query but can't actually mutate it,
     // or else actual movies state is changed forever, movie objects can be lost
 
@@ -39,7 +41,9 @@ class App extends React.Component {
     var searchedMovies = this.state.movies;
     // filter out based on user search 
     searchedMovies = searchedMovies.filter((movie) => {
-      return (movie.title.indexOf(query) !== -1)
+      // case-insensitive filter
+      query = query.toLowerCase();
+      return (movie.title.toLowerCase().indexOf(query) !== -1)
     });
     // update state
     this.setState({searchedMovies});
@@ -48,7 +52,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Hello World!</h1>
+        <h1>Movie List</h1>
         <SearchBar searchMovie={this.searchMovie}/>
         <MovieList movies={this.state.searchedMovies}/>
       </div>
