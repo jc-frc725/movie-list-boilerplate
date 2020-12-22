@@ -1,10 +1,8 @@
 import React from 'react';
 import MovieList from './MovieList.jsx';
 import SearchBar from './SearchBar.jsx';
+import AddMovieBar from './AddMovieBar.jsx';
 
-// const App = (props) => (
-//   <div>Hello World!</div>
-// );
 const movies = [
   {title: 'Mean Girls'},
   {title: 'Hackers'},
@@ -27,32 +25,27 @@ class App extends React.Component {
     }
     this.searchMovie = this.searchMovie.bind(this);
     //this.handleNoMovies = this.handleNoMovies.bind(this);
+    this.addMovie = this.addMovie.bind(this);
   }
 
   componentDidMount() {
-    // initialize movie state and searched movie state
     setTimeout(() => this.setState({movies: movies, searchedMovies: movies}), 1000);
   }
 
   searchMovie(query) {
-    // filter this.movies based on query but can't actually mutate it,
-    // or else actual movies state is changed forever, movie objects can be lost
-    // capture current searchedMovie state based on full data set
-    var searchedMovies = this.state.movies;
+    const searchedMovies = this.state.movies;
     // filter out based on user search 
     searchedMovies = searchedMovies.filter((movie) => {
       // case-insensitive filter
       query = query.toLowerCase();
       return (movie.title.toLowerCase().indexOf(query) !== -1)
     });
-    //this.setState({searchedMovies});
     
     if (searchedMovies.length === 0) {
       this.setState({searchedMovies, noMoviesFound: true});
     } else {
       this.setState({searchedMovies, noMoviesFound: false});
     }
-
   }
 
   // handle case where no movies are found after search
@@ -61,6 +54,13 @@ class App extends React.Component {
   //     this.setState({noMoviesFound: true});
   //   }
   // }
+
+  addMovie(movie) {
+    const currentMovies = this.state.movies;
+    const newMovie = {title: movie};
+    currentMovies.push(newMovie);
+    this.setState({searchedMovies: currentMovies});
+  }
 
   render() {
     // style conditional, updates on user interaction
@@ -72,6 +72,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Movie List</h1>
+        <AddMovieBar addMovie={this.addMovie}/>
         <SearchBar searchMovie={this.searchMovie}/>
         <p style={style}>No movie by that name found.</p>
         <MovieList movies={this.state.searchedMovies}/>
