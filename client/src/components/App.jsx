@@ -20,7 +20,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       movies: [],
-      searchedMovies: [],
+      currentMovies: [],
       noMoviesFound: false
     }
     this.searchMovie = this.searchMovie.bind(this);
@@ -29,11 +29,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(() => this.setState({movies: movies, searchedMovies: movies}), 1000);
+    setTimeout(() => this.setState({movies: [], currentMovies: []}), 1000);
   }
 
   searchMovie(query) {
-    const searchedMovies = this.state.movies;
+    let searchedMovies = this.state.movies;
     // filter out based on user search 
     searchedMovies = searchedMovies.filter((movie) => {
       // case-insensitive filter
@@ -42,15 +42,15 @@ class App extends React.Component {
     });
     
     if (searchedMovies.length === 0) {
-      this.setState({searchedMovies, noMoviesFound: true});
+      this.setState({currentMovies: searchedMovies, noMoviesFound: true});
     } else {
-      this.setState({searchedMovies, noMoviesFound: false});
+      this.setState({currentMovies: searchedMovies, noMoviesFound: false});
     }
   }
 
   // handle case where no movies are found after search
   // handleNoMovies() {
-  //   if (this.state.searchedMovies.length === 0) {
+  //   if (this.state.currentMovies.length === 0) {
   //     this.setState({noMoviesFound: true});
   //   }
   // }
@@ -58,8 +58,9 @@ class App extends React.Component {
   addMovie(movie) {
     const currentMovies = this.state.movies;
     const newMovie = {title: movie};
+   //this.state.movies.push(newMovie);
     currentMovies.push(newMovie);
-    this.setState({searchedMovies: currentMovies});
+    this.setState({currentMovies});
   }
 
   render() {
@@ -75,7 +76,7 @@ class App extends React.Component {
         <AddMovieBar addMovie={this.addMovie}/>
         <SearchBar searchMovie={this.searchMovie}/>
         <p style={style}>No movie by that name found.</p>
-        <MovieList movies={this.state.searchedMovies}/>
+        <MovieList movies={this.state.currentMovies}/>
       </div>
     );
   }
