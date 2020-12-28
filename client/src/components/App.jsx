@@ -19,17 +19,19 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      movies: [],
+      movies: movies,
       currentMovies: [],
+      watchedMovies: [],
       noMoviesFound: false
     }
     this.searchMovie = this.searchMovie.bind(this);
-    //this.handleNoMovies = this.handleNoMovies.bind(this);
-    this.addMovie = this.addMovie.bind(this);
+    this.addNewMovie = this.addNewMovie.bind(this);
+    this.toggleWatched = this.toggleWatched.bind(this);
   }
 
   componentDidMount() {
-    setTimeout(() => this.setState({movies: [], currentMovies: []}), 1000);
+    // mimic GET request
+    setTimeout(() => this.setState({movies: []}), 1000);
   }
 
   searchMovie(query) {
@@ -41,6 +43,7 @@ class App extends React.Component {
       return (movie.title.toLowerCase().indexOf(query) !== -1)
     });
     
+    // consider moving this block into a 'handleNoMovies' function
     if (searchedMovies.length === 0) {
       this.setState({currentMovies: searchedMovies, noMoviesFound: true});
     } else {
@@ -48,24 +51,33 @@ class App extends React.Component {
     }
   }
 
-  // handle case where no movies are found after search
-  // handleNoMovies() {
-  //   if (this.state.currentMovies.length === 0) {
-  //     this.setState({noMoviesFound: true});
-  //   }
-  // }
-
-  addMovie(movie) {
+  addNewMovie(movie) {
     const currentMovies = this.state.movies;
-    const newMovie = {title: movie};
+    const newMovie = {title: movie, id: currentMovies.length};
    //this.state.movies.push(newMovie);
     currentMovies.push(newMovie);
     this.setState({currentMovies});
   }
 
+  // when a movie item is toggled to 'watched', add to the watched list
+  // if not, remove it from the watched list
+  toggleWatched(movie) {
+    // set array to current watchedMovies
+    let watchedMovies = this.state.watchedMovies;
+    // if this movie has been toggled to watched, add to watch list
+    // if movie's id does not exist within watched list, add it
+    if (watchedMovies.indexOf(movie.id) === -1) {
+      watchedMovies.push(movie.id);
+    } else {
+      watchedMovies.splice(watchedMovies.indexOf(movie.id), 1);
+    }
+    // re-render
+    this.setState({watchedMovies});
+  }
+
   render() {
     // style conditional, updates on user interaction
-    const style = {
+    const noMoviesStyle = {
       // put css styles here, they will change by updating state
       display: this.state.noMoviesFound ? 'block' : 'none'
     }
@@ -73,10 +85,10 @@ class App extends React.Component {
     return (
       <div>
         <h1>Movie List</h1>
-        <AddMovieBar addMovie={this.addMovie}/>
+        <AddMovieBar addNewMovie={this.addNewMovie}/>
         <SearchBar searchMovie={this.searchMovie}/>
-        <p style={style}>No movie by that name found.</p>
-        <MovieList movies={this.state.currentMovies}/>
+        <p style={noMoviesStyle}>No movie by that name found.</p>
+        <MovieList movies={this.state.currentMovies} toggleWatched={this.toggleWatched}/>
       </div>
     );
   }

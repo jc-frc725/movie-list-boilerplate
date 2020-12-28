@@ -17,9 +17,8 @@ class AddMovieBar extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     // hand over form input value to add function
-    this.props.addMovie(this.state.value);
+    this.props.addNewMovie(this.state.value);
   }
-
 
   render() {
     return (
@@ -32,7 +31,7 @@ class AddMovieBar extends React.Component {
           Add Movie
         </button>
       </form>
-    )
+    );
   }
 }
 
